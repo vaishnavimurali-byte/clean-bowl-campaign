@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI campaign workflow - The Clean Bowl</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #f2f1ed;
+  color: #141412;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+/* ── Intro ── */
+.intro {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.intro-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8e8d89;
+  border: 1px solid #d8d7d2;
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
+}
+.intro h1 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  color: #141412;
+}
+.intro p {
+  font-size: 15px;
+  color: #4a4a47;
+  line-height: 1.75;
+  max-width: 580px;
+}
+.intro-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ededea;
+}
+.meta-item {
+  font-size: 13px;
+  color: #8e8d89;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Stepper ── */
+.stepper-wrap {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.stepper-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8e8d89;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+.stepper {
+  display: flex;
+  align-items: flex-start;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 68px;
+}
+.step-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+.step-dot.done   { background: #141412; color: #fff; }
+.step-dot.active { background: #141412; color: #fff; box-shadow: 0 0 0 5px rgba(20,20,18,0.1); }
+.step-dot.next   { background: #f2f1ed; color: #8e8d89; border: 1.5px solid #d8d7d2; }
+.step-name {
+  font-size: 11px;
+  color: #8e8d89;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 64px;
+}
+.step-name.active { color: #141412; font-weight: 500; }
+.step-name.done   { color: #4a4a47; }
+.step-line {
+  flex: 1;
+  height: 1px;
+  background: #d8d7d2;
+  margin-bottom: 26px;
+  min-width: 10px;
+}
+.step-line.done { background: #141412; opacity: 0.25; }
+
+/* ── Stage container ── */
+.stage-wrap {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+/* Stage header */
+.s-header {
+  padding: 2rem 2.5rem 1.75rem;
+  border-bottom: 1px solid #ededea;
+}
+.s-num {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8e8d89;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.s-title {
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #141412;
+}
+.s-tagline {
+  font-size: 15px;
+  color: #6b6b68;
+}
+.s-complete {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #8e8d89;
+  margin-top: 12px;
+}
+
+/* Sections inside stage */
+.s-section {
+  padding: 1.75rem 2.5rem;
+  border-bottom: 1px solid #ededea;
+}
+.s-section:last-child { border-bottom: none; }
+.section-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8e8d89;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+/* Key insight / callout */
+.callout-text {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #141412;
+  padding-left: 18px;
+  border-left: 3px solid #141412;
+}
+
+/* Prompts */
+.prompt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.prompt:last-child { margin-bottom: 0; }
+.prompt-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8e8d89;
+  background: #f2f1ed;
+  border-radius: 4px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.prompt-text {
+  font-size: 15px;
+  color: #4a4a47;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Findings */
+.finding {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.finding:last-child { margin-bottom: 0; }
+.finding-n {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8e8d89;
+  flex-shrink: 0;
+  margin-top: 2px;
+  min-width: 20px;
+}
+.finding-text {
+  font-size: 15px;
+  color: #141412;
+  line-height: 1.65;
+}
+
+/* Tools */
+.tools-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool-pill {
+  font-size: 13px;
+  font-weight: 500;
+  color: #141412;
+  background: #f2f1ed;
+  border-radius: 20px;
+  padding: 6px 16px;
+  border: 1px solid #d8d7d2;
+}
+
+/* Brief two-col */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media(max-width:560px) { .two-col { grid-template-columns: 1fr; } }
+.brief-block h3 {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8e8d89;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.brief-block p { font-size: 15px; color: #4a4a47; line-height: 1.7; }
+
+/* Angles */
+.angles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media(max-width:580px) { .angles { grid-template-columns: 1fr; } }
+.angle-card {
+  border: 1.5px solid #ededea;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+.angle-card.chosen { border-color: #141412; }
+.angle-chosen-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: #141412;
+  background: #f2f1ed;
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+.angle-num { font-size: 12px; color: #8e8d89; margin-bottom: 6px; }
+.angle-head { font-size: 15px; font-weight: 500; margin-bottom: 8px; line-height: 1.4; }
+.angle-desc { font-size: 14px; color: #4a4a47; line-height: 1.6; margin-bottom: 10px; }
+.angle-use { font-size: 13px; color: #8e8d89; line-height: 1.5; }
+
+/* Prompt expand */
+.prompt-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #8e8d89;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  margin-top: 4px;
+  transition: color 0.1s;
+}
+.prompt-toggle:hover { color: #141412; box-shadow: none; border: none; }
+.prompt-toggle i { font-size: 13px; transition: transform 0.2s; }
+.prompt-toggle.open i.ti-chevron-down { transform: rotate(180deg); }
+.prompt-box {
+  display: none;
+  margin-top: 12px;
+  background: #f9f8f5;
+  border: 1px solid #e5e4e0;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 14px;
+  color: #4a4a47;
+  line-height: 1.7;
+  font-style: italic;
+}
+.prompt-box.open { display: block; }
+
+/* Avoid */
+.avoid-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.avoid-item {
+  font-size: 13px;
+  color: #6b6b68;
+  background: #f2f1ed;
+  border-radius: 20px;
+  padding: 5px 14px;
+  border: 1px solid #e5e4e0;
+}
+
+/* Image grid */
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media(max-width:540px){ .img-grid { grid-template-columns: 1fr; } }
+.img-card { border-radius: 12px; overflow: hidden; border: 1px solid #e5e4e0; }
+.img-card img { width: 100%; display: block; }
+.img-caption { padding: 10px 14px; background: #f9f8f5; }
+.img-caption-label { font-size: 12px; font-weight: 500; color: #141412; margin-bottom: 3px; }
+.img-caption-note { font-size: 12px; color: #8e8d89; line-height: 1.5; }
+
+/* Caption block */
+.copy-block {
+  background: #f9f8f5;
+  border-left: 3px solid #141412;
+  border-radius: 0 10px 10px 0;
+  padding: 1.25rem 1.5rem;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #2a2a28;
+}
+.copy-block p { margin-bottom: 4px; }
+
+/* Image note */
+.image-note {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #f9f8f5;
+  border: 1px solid #e5e4e0;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 14px;
+  color: #4a4a47;
+  line-height: 1.65;
+}
+
+/* Watch */
+.watch-box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #fdf8ed;
+  border: 1px solid #e8d98a;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+.watch-box .watch-label { font-size: 13px; font-weight: 500; color: #7a5c00; margin-bottom: 5px; }
+.watch-box .watch-text { font-size: 15px; color: #5c4300; line-height: 1.65; }
+
+/* My take */
+.my-take-section {
+  background: #f9f8f5;
+}
+.take-who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.take-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #141412;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.take-name { font-size: 14px; font-weight: 500; }
+.take-sub  { font-size: 13px; color: #8e8d89; }
+.take-tried {
+  font-size: 14px;
+  color: #8e8d89;
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.take-noticed { font-size: 15px; color: #141412; line-height: 1.7; }
+
+/* Locked */
+.locked-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.locked-icon { font-size: 28px; color: #c8c7c2; margin-bottom: 14px; }
+.locked-title { font-size: 18px; font-weight: 500; color: #4a4a47; margin-bottom: 8px; }
+.locked-desc { font-size: 15px; color: #8e8d89; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+
+/* Nav */
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nav-row button {
+  font: inherit;
+  font-size: 15px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1.5px solid #d8d7d2;
+  background: #ffffff;
+  color: #141412;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.nav-row button:hover { background: #f2f1ed; }
+.nav-row button:disabled { opacity: 0.2; cursor: default; }
+.nav-row .btn-next {
+  background: #141412;
+  color: #ffffff;
+  border-color: #141412;
+}
+.nav-row .btn-next:hover { background: #2a2a28; }
+
+.footer {
+  margin-top: 2.5rem;
+  font-size: 14px;
+  color: #8e8d89;
+  line-height: 1.7;
+}
+.footer a { color: #4a4a47; }
+
+/* ── Further reading accordion ── */
+.further-wrap { margin-top: 1.5rem; }
+.further-intro { font-size: 13px; color: #8e8d89; margin-bottom: 12px; line-height: 1.65; }
+.acc-item { background: #fff; border-radius: 14px; margin-bottom: 10px; overflow: hidden; border: 1px solid #e8e7e3; }
+.acc-btn { width: 100%; text-align: left; padding: 1.1rem 1.5rem; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.acc-btn-left { display: flex; flex-direction: column; gap: 2px; }
+.acc-stage-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; }
+.acc-title { font-size: 15px; font-weight: 500; color: #141412; }
+.acc-chevron { font-size: 14px; color: #b0afab; transition: transform 0.2s; flex-shrink: 0; }
+.acc-btn.open .acc-chevron { transform: rotate(180deg); }
+.acc-body { display: none; border-top: 1px solid #ededea; padding: 1.5rem; }
+.acc-body.open { display: block; }
+
+/* ── Plan timeline ── */
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 10px; }
+@media(max-width:640px){ .plan-grid { grid-template-columns: 1fr; } }
+.plan-phase { background: #f9f8f5; border: 1px solid #e5e4e0; border-radius: 12px; padding: 1.25rem; }
+.plan-period { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; margin-bottom: 6px; }
+.plan-goal { font-size: 13px; font-weight: 500; color: #141412; margin-bottom: 12px; line-height: 1.35; border-bottom: 1px solid #e5e4e0; padding-bottom: 10px; }
+.plan-item { font-size: 12px; color: #6b6b68; line-height: 1.55; padding: 5px 0; border-bottom: 1px solid #edece8; display: flex; gap: 8px; }
+.plan-item:last-child { border-bottom: none; }
+.plan-dot { width: 5px; height: 5px; border-radius: 50%; background: #c8c7c2; margin-top: 7px; flex-shrink: 0; }
+.beyond-note { background: #f2f1ed; border: 1px dashed #c8c7c2; border-radius: 10px; padding: 1rem 1.25rem; margin-top: 10px; }
+.beyond-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; margin-bottom: 6px; }
+.beyond-text { font-size: 13px; color: #6b6b68; line-height: 1.65; }
+
+/* ── Editorial filter ── */
+.editorial-box { background: #fffef9; border: 1.5px solid #e8e0c8; border-radius: 12px; padding: 1.25rem 1.5rem; }
+.editorial-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; margin-bottom: 10px; }
+.editorial-text { font-size: 14px; color: #141412; line-height: 1.8; }
+
+/* ── Channel options (online/offline) ── */
+.channel-section-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; margin-bottom: 10px; margin-top: 18px; }
+.channel-section-head:first-child { margin-top: 0; }
+.option-row { display: flex; flex-direction: column; gap: 8px; }
+.option-item { display: flex; gap: 12px; padding: 10px 12px; background: #f9f8f5; border: 1px solid #e5e4e0; border-radius: 8px; }
+.option-name { font-size: 13px; font-weight: 500; color: #141412; min-width: 160px; flex-shrink: 0; }
+.option-why { font-size: 12px; color: #6b6b68; line-height: 1.55; }
+
+/* ── Metrics keep/skip ── */
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media(max-width:600px){ .metrics-grid { grid-template-columns: 1fr; } }
+.metrics-col-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.metrics-col-head.keep { color: #2e7d32; }
+.metrics-col-head.skip { color: #9a5a3a; }
+.metric-item { padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; }
+.metric-item.keep { background: #f2f8f2; border: 1px solid #c5dfc5; }
+.metric-item.skip { background: #faf5f0; border: 1px solid #e0cfc0; }
+.metric-name { font-size: 13px; font-weight: 500; color: #141412; margin-bottom: 3px; }
+.metric-reason { font-size: 12px; color: #6b6b68; line-height: 1.5; }
+
+/* ── Channel grid ── */
+.channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media(max-width:600px){ .channel-grid { grid-template-columns: 1fr; } }
+.channel-card { border-radius: 12px; padding: 1.25rem; border: 1.5px solid #ededea; }
+.channel-card.primary { border-color: #141412; }
+.channel-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 20px; padding: 2px 9px; margin-bottom: 10px; }
+.channel-tag.c-primary { background: #141412; color: #fff; }
+.channel-tag.c-secondary { background: #f2f1ed; color: #4a4a47; }
+.channel-name { font-size: 15px; font-weight: 500; margin-bottom: 6px; color: #141412; }
+.channel-why { font-size: 13px; color: #6b6b68; line-height: 1.6; margin-bottom: 10px; }
+.channel-cadence { font-size: 12px; color: #8e8d89; font-style: italic; }
+
+/* ── Trigger sequence ── */
+.trigger-strip { display: grid; grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr; align-items: start; }
+@media(max-width:640px){ .trigger-strip { grid-template-columns: 1fr; gap: 10px; } .trigger-arrow { display: none; } }
+.trigger-step { border-radius: 12px; padding: 1rem 1.1rem; background: #f9f8f5; border: 1px solid #e5e4e0; }
+.trigger-arrow { display: flex; align-items: center; justify-content: center; padding-top: 0.9rem; color: #c8c7c2; font-size: 14px; }
+.trigger-stage { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; margin-bottom: 6px; }
+.trigger-action { font-size: 13px; font-weight: 500; color: #141412; margin-bottom: 6px; line-height: 1.35; }
+.trigger-content { font-size: 12px; color: #6b6b68; line-height: 1.55; }
+
+/* ── Content pillars ── */
+.pillar-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media(max-width:580px){ .pillar-row { grid-template-columns: 1fr 1fr; } }
+.pillar-card { background: #f9f8f5; border: 1px solid #e5e4e0; border-radius: 10px; padding: 1rem; }
+.pillar-num { font-size: 11px; color: #8e8d89; margin-bottom: 6px; }
+.pillar-head { font-size: 13px; font-weight: 500; color: #141412; margin-bottom: 5px; line-height: 1.35; }
+.pillar-desc { font-size: 12px; color: #6b6b68; line-height: 1.55; }
+
+/* ── Journey map ── */
+.journey-strip {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr 28px 1fr;
+  align-items: start;
+}
+@media(max-width:620px){
+  .journey-strip { grid-template-columns: 1fr; gap: 12px; }
+  .journey-arrow-h { display: none; }
+}
+.journey-phase { border-radius: 12px; padding: 1.25rem; }
+.journey-phase.bad  { background: #fdf5f5; border: 1.5px solid #f0cfcf; }
+.journey-phase.mid  { background: #fdf8ed; border: 1.5px solid #e8d98a; }
+.journey-phase.good { background: #f2f8f2; border: 1.5px solid #b8d9b8; }
+.journey-arrow-h { display: flex; align-items: center; justify-content: center; padding-top: 1.1rem; color: #c8c7c2; font-size: 16px; }
+.journey-phase-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+.journey-phase.bad  .journey-phase-label { color: #c0392b; }
+.journey-phase.mid  .journey-phase-label { color: #9A6A00; }
+.journey-phase.good .journey-phase-label { color: #2e7d32; }
+.journey-phase-head { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: #141412; line-height: 1.35; }
+.journey-phase-desc { font-size: 13px; color: #6b6b68; line-height: 1.6; }
+
+/* ── Phase row labels ── */
+.phase-row-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; padding: 3px 10px; border-radius: 4px; display: inline-block; }
+.phase-row-label.bad  { background: #fdf5f5; color: #c0392b; }
+.phase-row-label.mid  { background: #fdf8ed; color: #9A6A00; }
+.phase-row-label.good { background: #f2f8f2; color: #2e7d32; }
+
+/* ── Prompt compare cards ── */
+.prompt-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:580px){ .prompt-compare { grid-template-columns: 1fr; } }
+.prompt-card { background: #f9f8f5; border: 1px solid #e5e4e0; border-radius: 12px; padding: 1.25rem; }
+.prompt-card.featured { border-color: #141412; background: #fff; }
+.prompt-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+.prompt-card-title { font-size: 14px; font-weight: 500; color: #141412; }
+.prompt-card-tag { font-size: 11px; color: #8e8d89; background: #f2f1ed; border-radius: 20px; padding: 2px 9px; white-space: nowrap; flex-shrink: 0; }
+.prompt-card-body { font-size: 13px; color: #4a4a47; line-height: 1.75; font-style: italic; max-height: 140px; overflow: hidden; position: relative; }
+.prompt-card-body::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 48px; background: linear-gradient(transparent, #f9f8f5); pointer-events: none; }
+.prompt-card.featured .prompt-card-body::after { background: linear-gradient(transparent, #fff); }
+.prompt-card-body.expanded { max-height: 2000px; }
+.prompt-card-body.expanded::after { display: none; }
+.prompt-expand-btn { font-size: 12px; color: #8e8d89; cursor: pointer; border: none; background: none; padding: 8px 0 0; font-family: inherit; display: inline-flex; align-items: center; gap: 4px; }
+.prompt-expand-btn:hover { color: #141412; }
+
+/* ── Contrast grid ── */
+.contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+@media(max-width:560px){ .contrast-grid { grid-template-columns: 1fr; } }
+.contrast-box { border-radius: 10px; padding: 1rem 1.25rem; }
+.contrast-box.c-bad  { background: #f9f8f5; border: 1px solid #e5e4e0; }
+.contrast-box.c-good { background: #f9f8f5; border: 1.5px solid #141412; }
+.contrast-box-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.c-bad  .contrast-box-label { color: #c0392b; }
+.c-good .contrast-box-label { color: #2e7d32; }
+.contrast-box p { font-size: 14px; color: #4a4a47; line-height: 1.65; }
+
+/* ── Tool matrix ── */
+.tool-matrix { border: 1px solid #e5e4e0; border-radius: 12px; overflow: hidden; }
+.tool-matrix-row { display: grid; grid-template-columns: 130px 1fr 1fr; border-bottom: 1px solid #e5e4e0; }
+@media(max-width:580px){ .tool-matrix-row { grid-template-columns: 1fr; } }
+.tool-matrix-row:last-child { border-bottom: none; }
+.tool-matrix-row.th { background: #f2f1ed; }
+.tool-matrix-cell { padding: 10px 14px; font-size: 13px; line-height: 1.5; border-right: 1px solid #e5e4e0; color: #4a4a47; }
+.tool-matrix-cell:last-child { border-right: none; }
+.tool-matrix-row.th .tool-matrix-cell { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8e8d89; }
+.r-good, .r-mid, .r-bad { display: flex; align-items: flex-start; gap: 7px; font-weight: 500; }
+.r-good { color: #2e7d32; }
+.r-mid  { color: #9A6A00; }
+.r-bad  { color: #c0392b; }
+.rdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.rdot.good { background: #2e7d32; }
+.rdot.mid  { background: #9A6A00; }
+.rdot.bad  { background: #c0392b; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Intro -->
+<div class="intro">
+  <span class="intro-tag">Dummy brand · AI campaign experiment</span>
+  <h1>The Clean Bowl -<br>A fictional brand. A real marketing workflow.</h1>
+  <p>The Clean Bowl doesn't exist. I created it as a project to answer a question I've been thinking about for a while: what does an end-to-end AI-assisted marketing campaign actually look like? Using a fictional premium clean-label pet food brand, I documented the campaign across five connected stages, with the final two exploring AI's recommendations for distribution and measurement. Every prompt, every iteration, every tool switch, and every decision is documented here. Not to prove that AI can replace marketers, but to understand where it genuinely helps, where it falls short, and what still depends on human judgment.</p>
+  <div class="intro-meta">
+    <span class="meta-item"><i class="ti ti-paw"></i> Fictional premium pet food brand</span>
+    <span class="meta-item"><i class="ti ti-tool"></i> 6 AI tools tested</span>
+    <span class="meta-item"><i class="ti ti-refresh"></i> 20+ prompts &amp; iterations</span>
+    <span class="meta-item"><i class="ti ti-layout-list"></i> 5-stage campaign workflow</span>
+  </div>
+</div>
+
+<!-- Stepper -->
+<div class="stepper-wrap">
+  <p class="stepper-label">Progress</p>
+  <div class="stepper" id="stepper"></div>
+</div>
+
+<!-- Stage content -->
+<div id="stage-content"></div>
+
+<!-- Nav -->
+<div class="nav-row" id="nav-row"></div>
+
+<!-- Further reading accordion -->
+<div class="further-wrap" id="further-wrap" style="display:none;">
+  <p class="further-intro">Stages 4 and 5 are where brand context, budget, and history take over. What follows is how I'd think about it for The Clean Bowl - not a prescription, just a starting point.</p>
+
+  <div class="acc-item">
+    <button class="acc-btn" onclick="toggleAcc('acc-dist', this)">
+      <div class="acc-btn-left">
+        <span class="acc-stage-tag">Stage 4</span>
+        <span class="acc-title">Distribution - where and how I'd get it out there</span>
+      </div>
+      <i class="ti ti-chevron-down acc-chevron"></i>
+    </button>
+    <div class="acc-body" id="acc-dist">
+
+      <div style="margin-bottom:1.5rem;">
+        <p class="section-label" style="margin-bottom:12px;">What I'd keep - and why</p>
+        <div class="editorial-box">
+          <p class="editorial-text">Distribution for a premium brand isn't about being everywhere - it's about being in the right places. AI gave me a comprehensive channel list. What it couldn't tell me is that online and offline aren't separate tracks for a brand like this - they reinforce each other. And that selectivity is the strategy, not scale.<br><br>I've also seen that curated, intimate events work exceptionally well for luxury products, at least in Bangalore. Getting the food in front of pet parents - and the pets - is the most honest marketing you can do. The product either earns the room or it doesn't.<br><br>Quick commerce and paid media come after organic traction, not before. You don't run ads on unvalidated creative.</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label" style="margin-bottom:12px;">The 3-6-9 plan - Bangalore first</p>
+        <div class="plan-grid">
+          <div class="plan-phase">
+            <p class="plan-period">Months 1-3</p>
+            <p class="plan-goal">Foundation - do one thing well</p>
+            <div class="plan-item"><span class="plan-dot"></span><span>Launch Instagram. 3x feed/week using Stage 3 assets.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Build D2C website. Ingredient-forward product page.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Set up email welcome flow - 3 emails max.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>1-2 intimate events in Bangalore (Koramangala / Indiranagar). 15-20 pet parents, animals present, no hard sell.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Approach 2-3 boutique pet stores for shelf presence.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Gift product to 3-5 micro-influencers. No brief, no contract.</span></div>
+          </div>
+          <div class="plan-phase">
+            <p class="plan-period">Months 4-6</p>
+            <p class="plan-goal">Build - scale what worked</p>
+            <div class="plan-item"><span class="plan-dot"></span><span>Double down on the content pillar driving saves and shares.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Apply for HUFT and Supertails listing.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Farmer's and artisanal markets. Sampling-led.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Premium residential communities (Prestige, Brigade) for pet parent events.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Vet clinic rack cards or sampling in 2-3 premium clinics.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>If email open rates are healthy, extend the welcome sequence.</span></div>
+          </div>
+          <div class="plan-phase">
+            <p class="plan-period">Months 7-9</p>
+            <p class="plan-goal">Scale - add reach to what's working</p>
+            <div class="plan-item"><span class="plan-dot"></span><span>List on quick commerce (Blinkit, Zepto). Brand is established enough now.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Start the email newsletter - there's an audience to send it to.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Pet-friendly cafe tie-up for ongoing brand presence.</span></div>
+            <div class="plan-item"><span class="plan-dot"></span><span>Formalise with 1-2 micro-influencers who organically performed.</span></div>
+          </div>
+        </div>
+        <div class="beyond-note" style="margin-top:12px;">
+          <p class="beyond-label">Beyond 9 months</p>
+          <p class="beyond-text">Consider a second city only after Bangalore is working. Mumbai operates differently - more aspirational, more visibility-driven. A Bandra or Colaba pop-up, HUFT flagship, a premium vet tie-up. Delhi/NCR after that. Don't stretch before one city is proven.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn" onclick="toggleAcc('acc-meas', this)">
+      <div class="acc-btn-left">
+        <span class="acc-stage-tag">Stage 5</span>
+        <span class="acc-title">Measurement - what I'd actually track</span>
+      </div>
+      <i class="ti ti-chevron-down acc-chevron"></i>
+    </button>
+    <div class="acc-body" id="acc-meas">
+      <div class="metrics-grid">
+        <div>
+          <p class="metrics-col-head keep">Keep at launch</p>
+          <div class="metric-item keep"><p class="metric-name">Save rate</p><p class="metric-reason">A save means "I want to come back to this." For a considered purchase like switching pet food, that's closer to intent than a like.</p></div>
+          <div class="metric-item keep"><p class="metric-name">Share rate</p><p class="metric-reason">If someone shares a Clean Bowl post, they're publicly endorsing a value - not just a piece of content. The habit parallel doing its job.</p></div>
+          <div class="metric-item keep"><p class="metric-name">Content performance by pillar</p><p class="metric-reason">Tells you which pillar is resonating. That shifts where creative effort goes next.</p></div>
+          <div class="metric-item keep"><p class="metric-name">Story replies</p><p class="metric-reason">One genuine reply is worth 100 views. Replies are community forming.</p></div>
+          <div class="metric-item keep"><p class="metric-name">Email open rate (Email 1 only)</p><p class="metric-reason">If people don't open the first email, the rest of the sequence doesn't exist.</p></div>
+        </div>
+        <div>
+          <p class="metrics-col-head skip">Skip for now</p>
+          <div class="metric-item skip"><p class="metric-name">Raw follower count</p><p class="metric-reason">500 engaged followers who buy beat 10,000 who scrolled past.</p></div>
+          <div class="metric-item skip"><p class="metric-name">ROAS</p><p class="metric-reason">No paid media at launch.</p></div>
+          <div class="metric-item skip"><p class="metric-name">Conversion rate</p><p class="metric-reason">Hard to attribute cleanly at this stage, and The Clean Bowl doesn't exist.</p></div>
+          <div class="metric-item skip"><p class="metric-name">Website traffic from social</p><p class="metric-reason">Easy to track, hard to interpret without a benchmark.</p></div>
+          <div class="metric-item skip"><p class="metric-name">Story views</p><p class="metric-reason">A Story reply tells you more than 1,000 views from the wrong audience.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">Built by <a href="https://www.linkedin.com/in/vaishnavi-murali-1169ba131" target="_blank">Vaishnavi Murali</a><br><br>Not sure where your team sits on the AI maturity curve?<br><a href="https://vaishnavimurali-byte.github.io/ai-marketing-maturity/">Take the 3-minute assessment →</a></p>
+
+</div>
+<script>
+(function () {
+
+var stages = [
+  {
+    name: "Research",
+    tagline: "Know the category before you write a single word",
+    done: true,
+    prompts: [
+      "What are the main reasons pet owners switch to clean-label or premium pet food?",
+      "Is clean-label pet food actually healthier for pets, or is it primarily a marketing positioning?"
+    ],
+    insight: "This is an aspiration category, not a pain category. Buyers want identity alignment - not a fix for something broken.",
+    findings: [
+      "No proven health advantage over properly formulated mass-market brands - the campaign cannot claim clean-label is medically superior.",
+      "The typical buyer already reads their own food labels. Clean-label pet food is an extension of an existing habit, not a new behaviour.",
+      "Honest positioning: trust and transparency. \"You want to know what's in the bowl - we make that easy.\""
+    ],
+    tools: ["Perplexity"],
+    promptUsed: "Prompt 1: \"What are the main reasons pet owners switch to clean-label or premium pet food?\"\n\nPrompt 2 (challenge prompt): \"Is clean-label pet food actually healthier for pets, or is it primarily a marketing positioning? What does the evidence say about the health risks of widely available mass-market pet food like Pedigree?\"",
+    watch: "The first prompt described the category. The second told me what the campaign can't claim. Always run a challenge prompt - not just a descriptive one.",
+    tried: "I ran two prompts in Perplexity. The first asked what drives the switch to clean-label food. The second challenged whether clean-label is actually healthier.",
+    noticed: "The first output had no numbers and didn't test whether the problem was real. The second confirmed it: clean-label isn't proven healthier, and mass-market brands aren't dangerous. The campaign can't lead with fear - it has to lead with trust."
+  },
+  {
+    name: "Brief",
+    tagline: "Turn research into a clear direction for the campaign",
+    done: true,
+    insight: "\"You already read your own labels. Now you can read theirs.\"",
+    objective: "Build category-defining trust for The Clean Bowl as the brand that makes ingredient transparency effortless - driving awareness among pet parents who see label-reading as a natural extension of how they already live.",
+    audience: "Urban pet parents (28–45) who already read labels on their own food. Their pet is a member of the household. This is identity-driven purchasing, not problem-driven - they're not fixing something broken, they're extending a value they already hold.",
+    tone: "Confident, warm, unhurried. No alarm bells, no us-vs-them narrative, no clinical health claims. Closer to a well-made specialty grocery brand than a vet-clinic voice.",
+    avoid: ["Fear marketing", "Unsupported health claims", "Ingredient shaming", "\"Everything else is toxic\"", "Claiming superiority over mass-market brands"],
+    angles: [
+      { chosen: true,  n:"01", head:"The habit parallel",        desc:"\"You already read your own labels. Now you can read theirs.\" Positions clean-label as a natural extension of an existing habit - not a new anxiety.",      use:"Social and packaging. Visual pairing of a human ingredient label next to a pet food label." },
+      { chosen: false, n:"02", head:"Nothing to decode",         desc:"Every ingredient named plainly. No asterisks, no fillers hiding behind scientific names. Transparency as a convenience, not a virtue signal.",               use:"Website and product pages where the ingredient list itself is the hero visual." },
+      { chosen: false, n:"03", head:"Because they're not just a pet", desc:"Feeding your pet the way you feed yourself is a quiet expression of how much they matter to you.",                                                         use:"Brand film or launch content where you want emotional resonance over information." }
+    ],
+    tools: ["Claude", "ChatGPT"],
+    promptUsed: "\"I'm building a campaign for a brand called The Clean Bowl - premium clean-label pet food for dogs and cats. Here's what my research told me: clean-label is an aspiration category, not a pain category. Buyers want identity alignment, not a fix for something broken. There's no proven health advantage over properly formulated mass-market brands, so the campaign can't lead with fear. The honest positioning is trust and transparency - 'you want to know what's in the bowl, we make that easy.' Write a campaign brief. Include: campaign objective, target audience, core message, tone, and three messaging angles to explore.\"\n\nThis exact prompt was run in both Claude and ChatGPT.",
+    watch: "The brief is only as good as the research you feed it. Both tools converged on the same three angles - that's validation of Stage 1, not a coincidence.",
+    tried: "I ran the same brief prompt in both Claude and ChatGPT to compare outputs.",
+    noticed: "Both tools landed on almost identical messaging angles - different words, same strategy. Claude's core message line was sharper. ChatGPT's 'Never say' list was more useful as a guardrail. The best brief borrows from both."
+  },
+  {
+    name: "Content creation", tagline: "Build the actual campaign assets", done: true,
+    insight: "The prompt is the brief. The closer your direction reads to real art direction, the closer the output gets to real creative work.",
+    caption: "You don't need a reason to care about what's in the bowl.\nYou just do.\n\nIf you've ever checked an ingredient list before buying something for yourself, you already understand what The Clean Bowl is about.\n\nNot fear. Not complicated nutrition. Just the confidence of knowing what you're choosing.\n\nWe believe pet food labels should be easy to read, easy to understand, and easy to trust.\n\nWelcome to The Clean Bowl.",
+    imageDesc: "AI-generated via Gemini: hands holding a card with the campaign line, golden retriever watching in the background. Warm natural light. Logo placed top-left. Took 4 prompt iterations to get here.",
+    promptShort: "Create a premium Instagram post (1:1) for a fictional clean-label pet food brand called The Clean Bowl. Show a warm, sunlit modern kitchen with a pet parent reading the ingredient label on a minimalist kraft paper pet food pouch while a golden retriever and a cat wait nearby. Include a ceramic pet bowl and subtly arranged whole ingredients like sweet potato, peas, pumpkin, and oats. Leave generous negative space on the left for copy. Integrate The Clean Bowl logo naturally on the packaging and bowl. Use a warm neutral palette (cream, sage green, oatmeal, walnut), soft natural lighting, Scandinavian minimalism, editorial photography, and a calm premium aesthetic. Include only this text:\nHeadline: The habit of reading labels. Now, for their bowl.\nSubtext: Premium clean-label pet food for dogs & cats.\nPhotorealistic, luxury lifestyle advertising, clean composition, minimal typography, no icons, no feature lists, no extra marketing text.",
+    promptLong: "Design a premium Instagram advertisement (1:1 square) for a fictional clean-label pet food brand called The Clean Bowl.\n\nThe visual should feel like a luxury lifestyle campaign rather than a pet food advertisement. Think Aesop × Kin Euphorics × Apple meets premium pet care.\n\nScene: A bright, sunlit contemporary home with soft morning light streaming through large windows. A beautifully styled wooden dining table or kitchen island sits in the foreground. A ceramic pet bowl featuring The Clean Bowl logo is placed naturally on the table beside a minimalist kraft paper pet food pouch with the same branding.\n\nInstead of pets eating, show a subtle human moment: a pet parent turning over the pouch to read the ingredient label while a curious golden retriever sits beside them and a cat lounges nearby. The interaction should feel candid, calm and intimate-not staged.\n\nSurround the packaging with a few whole ingredients (sweet potato, peas, pumpkin, oats, rosemary) arranged editorially-not like a recipe flat lay.\n\nComposition should leave generous negative space on the left for typography.\n\nTypography (only these two pieces of copy):\nHeadline: The habit of reading labels. Now, for their bowl.\nSubtext: Premium clean-label pet food for dogs & cats.\n\nIntegrate The Clean Bowl logo elegantly in the top-left corner and on the packaging. The logo should feel embossed or printed rather than floating.\n\nDesign language:\n• Scandinavian minimalism\n• Organic textures\n• Warm cream, sage green, oatmeal and walnut wood palette\n• Matte ceramic, linen, kraft paper packaging\n• Soft natural shadows\n• Editorial photography\n• Premium typography with a modern serif for the headline and a clean sans-serif for the subtext\n• Lots of breathing room\n• High-end art direction\n• No badges, icons, feature lists, or marketing stickers\n• No excessive text\n• No exaggerated smiles or overly posed expressions\n• Photorealistic, magazine-quality product campaign suitable for Instagram.",
+    tools: ["ChatGPT", "Gemini", "Canva AI", "Adobe Firefly"],
+    promptUsed: "Caption prompt (ChatGPT): Same brief as Stage 2 - asked for 3 Instagram captions under 150 words, warm and confident tone, no fear, no health claims. Chose the third option - it led with identity rather than product features.\n\nImage prompts: Both the short condensed version and the full creative brief are documented in the section above. The full brief is what unlocked campaign-quality results.",
+    watch: "Tool choice is part of the prompt. The same creative brief produced campaign-ready work in Gemini and Canva AI - and fell flat in Adobe Firefly. Matching the right tool to the task matters as much as writing the right prompt.",
+    tried: "I used Claude to generate the image prompts first and ran them through Gemini. The results were bad. Switched to ChatGPT - first with a random prompt, then a refined one. Also tested Canva AI with the short prompt to see how the creative direction translated across tools. It took 3 rounds of prompting to get to the final outputs - each iteration got closer, but none of the early ones were usable.",
+    noticed: "Claude's image prompts were bad. ChatGPT's random prompt cracked the scene on the first try - the right composition, the right cast, the right moment. Refining the ChatGPT prompt further (logo in, text-light) gave the cleanest result. Canva AI with the short prompt produced a beautiful set of variations ready for future posts.\n\nDesign is a very personal perspective - what works for one person may not work for another, and that's okay. Iteration is the only way forward. You may not be able to outsource 100% of your design to AI, but you can absolutely find a starting point, a direction, a base to build on. That's what this was."
+  }
+];
+
+var cur = 0;
+
+function renderStepper() {
+  var h = "";
+  stages.forEach(function (s, i) {
+    var isDone = s.done && i !== cur;
+    var isActive = i === cur;
+    var dc = isDone ? "done" : isActive ? "active" : "next";
+    var lc = "step-name" + (isActive ? " active" : isDone ? " done" : "");
+    var icon = isDone ? '<i class="ti ti-check" style="font-size:13px;"></i>' : (i + 1);
+    h += '<div class="step"><div class="step-dot ' + dc + '">' + icon + '</div><span class="' + lc + '">' + s.name + '</span></div>';
+    if (i < stages.length - 1) h += '<div class="step-line' + (isDone ? " done" : "") + '"></div>';
+  });
+  document.getElementById("stepper").innerHTML = h;
+}
+
+function renderStage() {
+  var s = stages[cur];
+  var h = '<div class="stage-wrap">';
+
+  // Header
+  h += '<div class="s-header">';
+  h += '<p class="s-num">Stage ' + (cur + 1) + ' of ' + stages.length + '</p>';
+  h += '<p class="s-title">' + s.name + '</p>';
+  h += '<p class="s-tagline">' + s.tagline + '</p>';
+  if (s.done) h += '<div class="s-complete"><i class="ti ti-circle-check"></i>&nbsp;Complete</div>';
+  h += '</div>';
+
+  if (!s.done) {
+    h += '<div class="locked-section"><div class="locked-icon"><i class="ti ti-lock"></i></div><p class="locked-title">' + s.name + '</p><p class="locked-desc">' + s.locked + '</p></div>';
+    h += '</div>';
+    document.getElementById("stage-content").innerHTML = h;
+    return;
+  }
+
+  // Key insight
+  h += '<div class="s-section">';
+  h += '<p class="section-label">Key insight</p>';
+  h += '<p class="callout-text">' + s.insight + '</p>';
+  h += '</div>';
+
+  if (cur === 0) {
+    // Prompts
+    h += '<div class="s-section">';
+    h += '<p class="section-label">What I searched</p>';
+    s.prompts.forEach(function (p) {
+      h += '<div class="prompt"><span class="prompt-label">Q</span><span class="prompt-text">' + p + '</span></div>';
+    });
+    h += '</div>';
+    // Findings
+    h += '<div class="s-section">';
+    h += '<p class="section-label">What I found</p>';
+    s.findings.forEach(function (f, i) {
+      h += '<div class="finding"><span class="finding-n">0' + (i + 1) + '</span><span class="finding-text">' + f + '</span></div>';
+    });
+    h += '</div>';
+  }
+
+  if (cur === 1) {
+    // Objective + Audience
+    h += '<div class="s-section"><div class="two-col">';
+    h += '<div class="brief-block"><h3>Campaign objective</h3><p>' + s.objective + '</p></div>';
+    h += '<div class="brief-block"><h3>Target audience</h3><p>' + s.audience + '</p></div>';
+    h += '</div></div>';
+    // Angles
+    h += '<div class="s-section">';
+    h += '<p class="section-label">Messaging angles</p>';
+    h += '<div class="angles">';
+    s.angles.forEach(function (a) {
+      h += '<div class="angle-card' + (a.chosen ? ' chosen' : '') + '">';
+      if (a.chosen) h += '<span class="angle-chosen-tag">Chosen angle</span>';
+      h += '<p class="angle-num">' + a.n + '</p>';
+      h += '<p class="angle-head">' + a.head + '</p>';
+      h += '<p class="angle-desc">' + a.desc + '</p>';
+      h += '<p class="angle-use">→ ' + a.use + '</p>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+    // Tone + Never say
+    h += '<div class="s-section"><div class="two-col">';
+    h += '<div class="brief-block"><h3>Tone</h3><p>' + s.tone + '</p></div>';
+    h += '<div class="brief-block"><h3>Never say</h3><div class="avoid-list">';
+    s.avoid.forEach(function (a) { h += '<span class="avoid-item">' + a + '</span>'; });
+    h += '</div></div></div></div>';
+  }
+
+  if (cur === 2) {
+
+    // === JOURNEY MAP ===
+    h += '<div class="s-section">';
+    h += '<p class="section-label">The journey - how I got here</p>';
+    h += '<div class="journey-strip">';
+    h += '<div class="journey-phase bad"><p class="journey-phase-label">Phase 1 - Generic</p><p class="journey-phase-head">Claude prompts → Gemini</p><p class="journey-phase-desc">Asked Claude to write the image generation prompt. Took that output into Gemini. Got garbled text, wrong aesthetic, no lifestyle depth. Claude described the message - not the moment. The brief wasn\'t specific enough, so the prompt wasn\'t either.</p></div>';
+    h += '<div class="journey-arrow-h">→</div>';
+    h += '<div class="journey-phase mid"><p class="journey-phase-label">Phase 2 - Breakthrough</p><p class="journey-phase-head">ChatGPT surprise</p><p class="journey-phase-desc">A random ChatGPT prompt unlocked the scene concept - woman reading the label, golden retriever and cat nearby, branded packaging. Right composition. Wrong design layer: icon bullets, feature lists, footer bar.</p></div>';
+    h += '<div class="journey-arrow-h">→</div>';
+    h += '<div class="journey-phase good"><p class="journey-phase-label">Phase 3 - Dialling in</p><p class="journey-phase-head">Refined + reused</p><p class="journey-phase-desc">Went back to ChatGPT with one specific ask: incorporate the logo, keep it text-light. That refinement produced the cleanest image. Then took the short prompt to Canva AI - and got a set of beautiful variations for future posts.</p></div>';
+    h += '</div>';
+    h += '</div>';
+
+    // === CAPTION ===
+    h += '<div class="s-section">';
+    h += '<p class="section-label">Instagram caption - ChatGPT</p>';
+    h += '<div class="copy-block">';
+    s.caption.split('\n').forEach(function(line) {
+      h += line ? '<p>' + line + '</p>' : '<br>';
+    });
+    h += '</div></div>';
+
+    // === IMAGE PROGRESSION ===
+    h += '<div class="s-section">';
+    h += '<p class="section-label">Visual progression - from generic to campaign-ready</p>';
+
+    h += '<span class="phase-row-label bad">Phase 1 - Where it started (Claude prompts → Gemini)</span>';
+    h += '<div class="img-grid" style="margin-bottom:22px;">';
+    h += '<div class="img-card"><img src="1.png" alt="Iteration 1 - complete failure"><div class="img-caption"><p class="img-caption-label">Claude prompt → Gemini - Iteration 1</p><p class="img-caption-note">I asked Claude to write an image generation prompt. Took that output straight into Gemini. Complete hallucination - garbled text, washed-out image. The prompt was generic because the brief it was given wasn\'t specific enough.</p></div></div>';
+    h += '<div class="img-card"><img src="2.png" alt="Iteration 2 - campaign line, no scene"><div class="img-caption"><p class="img-caption-label">Claude prompt → Gemini - Iteration 2</p><p class="img-caption-note">The campaign line appeared but there\'s no product, no scene, no lifestyle depth. Claude\'s prompt described the message - not the moment. Concept without context doesn\'t make an ad.</p></div></div>';
+    h += '</div>';
+
+    h += '<span class="phase-row-label mid">Phase 2 - Unexpected breakthrough</span>';
+    h += '<div class="img-grid" style="margin-bottom:22px;">';
+    h += '<div class="img-card"><img src="3.png" alt="ChatGPT random prompt - great output"><div class="img-caption"><p class="img-caption-label">ChatGPT - random prompt</p><p class="img-caption-note">No careful engineering - just a quick try in ChatGPT. And it nailed the scene: woman reading the label, branded packaging, golden retriever and cat, real ingredients. The concept cracked open here.</p></div></div>';
+    h += '<div class="img-card"><img src="4.png" alt="Long creative brief - good but not the winner"><div class="img-caption"><p class="img-caption-label">Long creative brief → Gemini</p><p class="img-caption-note">Took the ChatGPT scene and wrote a full art direction brief around it. Strong composition, editorial feel, all the right elements. Good - but not the cleanest. The long brief added detail that made the output slightly over-produced.</p></div></div>';
+    h += '</div>';
+
+    h += '<span class="phase-row-label good">Phase 3 - Dialling it in</span>';
+    h += '<div class="img-grid">';
+    h += '<div class="img-card"><img src="5.png" alt="Refined ChatGPT prompt - the winner"><div class="img-caption"><p class="img-caption-label">Refined ChatGPT prompt - the cleanest</p><p class="img-caption-note">Asked ChatGPT to incorporate the logo and keep it text-light. This is the winner. The brand lives inside the scene rather than sitting on top of it. Pure lifestyle photography, no clutter, nothing to explain.</p></div></div>';
+    h += '<div class="img-card"><img src="6.png" alt="Canva AI + short ChatGPT prompt - future variations"><div class="img-caption"><p class="img-caption-label">Canva AI + short ChatGPT prompt</p><p class="img-caption-note">Ran the short prompt through Canva AI - and got a set of beautiful variations. Not one hero image, but a library. These are ready to use as future posts in the same creative direction.</p></div></div>';
+    h += '</div>';
+    h += '</div>';
+
+    // === TWO PROMPTS ===
+    h += '<div class="s-section">';
+    h += '<p class="section-label">The two prompts - what changed and why it matters</p>';
+    h += '<p style="font-size:15px;color:#4a4a47;line-height:1.75;margin-bottom:20px;">Both prompts produce strong results. The long one was built first - it unlocked the creative direction. The short one is the distilled version: all the essential signal with less bulk. The difference between both of these and the early generic prompts is not the length - it is the <strong style="color:#141412;">approach</strong>. These are written like briefs, not search queries.</p>';
+
+    var pid2 = 'pshort';
+    var pid3 = 'plong';
+    h += '<div class="prompt-compare">';
+
+    h += '<div class="prompt-card">';
+    h += '<div class="prompt-card-header"><span class="prompt-card-title">The short version</span><span class="prompt-card-tag">Condensed · still works</span></div>';
+    h += '<div class="prompt-card-body" id="' + pid2 + '">' + s.promptShort.replace(/\n/g, '<br>') + '</div>';
+    h += '<button class="prompt-expand-btn" onclick="expandP(\'' + pid2 + '\',this)"><i class="ti ti-chevron-down" style="font-size:11px;"></i> Read full prompt</button>';
+    h += '</div>';
+
+    h += '<div class="prompt-card featured">';
+    h += '<div class="prompt-card-header"><span class="prompt-card-title">The creative brief</span><span class="prompt-card-tag">Long · most effective</span></div>';
+    h += '<div class="prompt-card-body" id="' + pid3 + '">' + s.promptLong.replace(/\n/g, '<br>') + '</div>';
+    h += '<button class="prompt-expand-btn" onclick="expandP(\'' + pid3 + '\',this)"><i class="ti ti-chevron-down" style="font-size:11px;"></i> Read full prompt</button>';
+    h += '</div>';
+
+    h += '</div>';
+
+    h += '<div class="contrast-grid">';
+    h += '<div class="contrast-box c-bad"><p class="contrast-box-label">Search-query approach</p><p>Describes the subject. Names the category. Adds style keywords. Hopes for the best. Gets stock photography and a layout full of icon bullets.</p></div>';
+    h += '<div class="contrast-box c-good"><p class="contrast-box-label">Brief-as-prompt approach</p><p>Sets an aesthetic register with real brand references. Directs the human moment. Specifies what to exclude. Defines the design language. Gets editorial photography that could run as a campaign.</p></div>';
+    h += '</div>';
+    h += '</div>';
+
+    // === TOOL COMPARISON ===
+    h += '<div class="s-section">';
+    h += '<p class="section-label">Which tool gave what - the honest comparison</p>';
+    h += '<div class="tool-matrix">';
+    h += '<div class="tool-matrix-row th"><div class="tool-matrix-cell">Tool</div><div class="tool-matrix-cell">Prompt used</div><div class="tool-matrix-cell">Result</div></div>';
+    h += '<div class="tool-matrix-row"><div class="tool-matrix-cell" style="font-weight:500;color:#141412;">Claude → Gemini</div><div class="tool-matrix-cell">Claude-generated prompt (generic brief)</div><div class="tool-matrix-cell"><div class="r-bad"><div class="rdot bad"></div>Failed - garbled text, no lifestyle scene, wrong aesthetic</div></div></div>';
+    h += '<div class="tool-matrix-row"><div class="tool-matrix-cell" style="font-weight:500;color:#141412;">ChatGPT</div><div class="tool-matrix-cell">Random / unplanned prompt</div><div class="tool-matrix-cell"><div class="r-good"><div class="rdot good"></div>Surprisingly great - cracked the scene concept</div></div></div>';
+    h += '<div class="tool-matrix-row"><div class="tool-matrix-cell" style="font-weight:500;color:#141412;">Gemini</div><div class="tool-matrix-cell">Long creative brief</div><div class="tool-matrix-cell"><div class="r-mid"><div class="rdot mid"></div>Good - editorial feel, slightly over-produced</div></div></div>';
+    h += '<div class="tool-matrix-row"><div class="tool-matrix-cell" style="font-weight:500;color:#141412;">ChatGPT</div><div class="tool-matrix-cell">Refined prompt (logo + text-light)</div><div class="tool-matrix-cell"><div class="r-good"><div class="rdot good"></div>The winner - cleanest output, brand lives in the scene</div></div></div>';
+    h += '<div class="tool-matrix-row"><div class="tool-matrix-cell" style="font-weight:500;color:#141412;">Canva AI</div><div class="tool-matrix-cell">Short ChatGPT prompt</div><div class="tool-matrix-cell"><div class="r-good"><div class="rdot good"></div>Beautiful variations - ready to use as future posts</div></div></div>';
+    h += '</div>';
+    h += '<p style="font-size:13px;color:#8e8d89;margin-top:12px;line-height:1.65;"><strong style="color:#141412;">The takeaway:</strong> Tool quality is part of the equation. The same brief that produced campaign-ready work in Gemini and Canva AI fell flat in Firefly. Matching the tool to the task matters as much as crafting the prompt.</p>';
+    h += '</div>';
+
+  }
+
+  // AI tools used + prompt toggle - shared across all completed stages
+  h += '<div class="s-section">';
+  h += '<p class="section-label">AI tools used</p>';
+  h += '<div class="tools-row">';
+  s.tools.forEach(function (t) { h += '<span class="tool-pill">' + t + '</span>'; });
+  h += '</div>';
+  if (s.promptUsed) {
+    var pid = 'prompt-' + cur;
+    h += '<button class="prompt-toggle" onclick="togglePrompt(\'' + pid + '\', this)"><i class="ti ti-chevron-down"></i> View prompt used</button>';
+    h += '<div class="prompt-box" id="' + pid + '">' + s.promptUsed.replace(/\n/g, '<br>') + '</div>';
+  }
+  h += '</div>';
+
+  // Watch
+  h += '<div class="s-section">';
+  h += '<div class="watch-box"><i class="ti ti-alert-triangle" style="font-size:18px;color:#9A6A00;flex-shrink:0;margin-top:2px;" aria-hidden="true"></i>';
+  h += '<div><p class="watch-label">One thing to watch</p><p class="watch-text">' + s.watch + '</p></div></div>';
+  h += '</div>';
+
+  // My take
+  h += '<div class="s-section my-take-section">';
+  h += '<div class="take-who"><div class="take-avatar">VM</div><div><div class="take-name">My take</div><div class="take-sub">Stage ' + s.name + '</div></div></div>';
+  h += '<p class="take-tried">' + s.tried + '</p>';
+  h += '<p class="take-noticed">' + s.noticed + '</p>';
+  h += '</div>';
+
+  h += '</div>'; // close stage-wrap
+  document.getElementById("stage-content").innerHTML = h;
+}
+
+function renderNav() {
+  var prev = cur === 0 ? '<button disabled>← Previous</button>' : '<button onclick="prev()">← Previous</button>';
+  var nextLabel = cur < stages.length - 1 ? 'Next: ' + stages[cur + 1].name + ' →' : 'Start over';
+  var next = '<button class="btn-next" onclick="next()">' + nextLabel + '</button>';
+  document.getElementById("nav-row").innerHTML = prev + next;
+}
+
+window.expandP = function (id, btn) {
+  var body = document.getElementById(id);
+  var expanded = body.classList.toggle('expanded');
+  var icon = btn.querySelector('i');
+  if (icon) icon.className = expanded ? 'ti ti-chevron-up' : 'ti ti-chevron-down';
+  icon.style.fontSize = '11px';
+  btn.childNodes[btn.childNodes.length - 1].textContent = expanded ? ' Collapse' : ' Read full prompt';
+};
+
+window.toggleAcc = function (id, btn) {
+  var body = document.getElementById(id);
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+};
+
+window.togglePrompt = function (id, btn) {
+  var box = document.getElementById(id);
+  var open = box.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.childNodes[1].textContent = open ? ' Hide prompt' : ' View prompt used';
+};
+
+function render() {
+  renderStepper(); renderStage(); renderNav();
+  var fw = document.getElementById('further-wrap');
+  if (fw) fw.style.display = cur === 2 ? 'block' : 'none';
+}
+window.prev = function () { if (cur > 0) { cur--; render(); } };
+window.next = function () { cur = (cur + 1) % stages.length; render(); };
+render();
+
+})();
+</script>
+</body>
+</html>
